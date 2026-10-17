@@ -1,0 +1,103 @@
+[
+  {
+    "fn": "breakEvenTruth",
+    "args": [
+      86,
+      2.75
+    ],
+    "expected": "The $86.00 pass against $2.75 rides breaks even at ride 32 - ride 33 onward is free."
+  },
+  {
+    "fn": "breakEvenTruth",
+    "args": [
+      10,
+      2.5
+    ],
+    "expected": "The $10.00 pass against $2.50 rides breaks even at ride 4 - ride 5 onward is free."
+  },
+  {
+    "fn": "breakEvenTruth",
+    "args": [
+      86,
+      0
+    ],
+    "expected": "ERR:the ride price must be more than zero"
+  },
+  {
+    "fn": "breakEvenTruth",
+    "args": [
+      0,
+      2.75
+    ],
+    "expected": "ERR:the pass price must be more than zero"
+  },
+  {
+    "fn": "monthTruth",
+    "args": [
+      86,
+      2.75,
+      22
+    ],
+    "expected": "22 rides at $2.75 are $60.50 - the $86.00 pass costs $25.50 more than the rides."
+  },
+  {
+    "fn": "monthTruth",
+    "args": [
+      86,
+      2.75,
+      40
+    ],
+    "expected": "40 rides at $2.75 are $110.00 - the $86.00 pass saves you $24.00."
+  },
+  {
+    "fn": "monthTruth",
+    "args": [
+      10,
+      2.5,
+      4
+    ],
+    "expected": "4 rides at $2.50 are $10.00 - exactly the $10.00 pass, a wash."
+  },
+  {
+    "fn": "monthTruth",
+    "args": [
+      86,
+      2.75,
+      0
+    ],
+    "expected": "Zero rides is zero rides - the pass is a donation."
+  },
+  {
+    "fn": "monthTruth",
+    "args": [
+      86,
+      2.75,
+      -1
+    ],
+    "expected": "ERR:rides must be zero or more"
+  },
+  {
+    "fn": "commuteTruth",
+    "args": [
+      2,
+      20
+    ],
+    "expected": "2 rides a day for 20 days is 40 rides - count the vacation days honestly."
+  },
+  {
+    "fn": "commuteTruth",
+    "args": [
+      1,
+      1
+    ],
+    "expected": "1 ride a day for 1 day is 1 ride - count the vacation days honestly."
+  },
+  {
+    "fn": "commuteTruth",
+    "args": [
+      2,
+      0
+    ],
+    "expected": "ERR:days must be at least 1"
+  }
+]
