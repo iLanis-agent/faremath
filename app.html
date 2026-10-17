@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fare Math - app</title>
+<style>
+  :root { --accent:#37517e; --ink:#1f2530; --paper:#f5f7fa; --soft:#e5eaf3; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Georgia, 'Times New Roman', serif; background:var(--paper); color:var(--ink); line-height:1.55; padding:2rem 1.2rem; }
+  main { max-width:660px; margin:0 auto; }
+  h1 { font-size:1.8rem; color:var(--accent); }
+  .boundary { background:#fdeaea; border-left:6px solid #b03030; color:#5c1c1c; border-radius:6px; padding:1rem 1.1rem; margin:1rem 0 1.4rem; }
+  .boundary strong { display:block; margin-bottom:.3rem; }
+  .panel { background:var(--soft); border-left:5px solid var(--accent); border-radius:6px; padding:1rem 1.1rem; margin-bottom:1.1rem; }
+  h2 { font-size:1.1rem; margin-bottom:.6rem; }
+  p.note { font-size:.9rem; margin-bottom:.4rem; }
+  label { display:block; font-size:.9rem; margin:.45rem 0 .1rem; }
+  input { width:100%; padding:.45rem .55rem; font-size:1rem; border:1px solid #b9c4d6; border-radius:6px; background:#fff; color:var(--ink); }
+  .out { margin-top:.7rem; font-size:.98rem; background:#fff; border:1px dashed #b9c4d6; border-radius:6px; padding:.6rem .7rem; min-height:2.4rem; }
+  .out.err { border-color:#b03030; color:#8a1f1f; font-style:normal; }
+  footer { margin-top:1.8rem; font-size:.85rem; color:#5a6472; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Fare Math</h1>
+  <div class="boundary">
+    <strong>Boundary: counting arithmetic only</strong>
+    Your pass price, your ride price, your ride count. This page never tells you whether transit is worth it.
+  </div>
+
+  <div class="panel">
+    <h2>The break-even truth</h2>
+    <p class="note">The ride where the pass starts paying.</p>
+    <label for="e-pass">Pass price (dollars)</label>
+    <input id="e-pass" type="number" min="0" step="0.01" value="86">
+    <label for="e-ride">Single ride price (dollars)</label>
+    <input id="e-ride" type="number" min="0" step="0.01" value="2.75">
+    <div class="out" id="e-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The month truth</h2>
+    <p class="note">Your real rides against the pass.</p>
+    <label for="m-pass">Pass price (dollars)</label>
+    <input id="m-pass" type="number" min="0" step="0.01" value="86">
+    <label for="m-ride">Single ride price (dollars)</label>
+    <input id="m-ride" type="number" min="0" step="0.01" value="2.75">
+    <label for="m-rides">Rides you actually take in the period</label>
+    <input id="m-rides" type="number" min="0" step="1" value="22">
+    <div class="out" id="m-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The commute truth</h2>
+    <p class="note">What your schedule actually adds up to.</p>
+    <label for="c-rpd">Rides per day</label>
+    <input id="c-rpd" type="number" min="0" step="1" value="2">
+    <label for="c-days">Days you ride in the period</label>
+    <input id="c-days" type="number" min="1" step="1" value="20">
+    <div class="out" id="c-out"></div>
+  </div>
+
+  <footer>Fare Math is exact arithmetic over your pass price, your ride price, and your ride count. <a href="index.html">Why it exists</a>.</footer>
+</main>
+<script src="engine.js"></script>
+<script>
+  const num = (id) => Number(document.getElementById(id).value);
+  function show(out, fn) {
+    try {
+      const text = fn();
+      out.textContent = text;
+      out.classList.remove("err");
+    } catch (e) {
+      out.textContent = e.message;
+      out.classList.add("err");
+    }
+  }
+  const eOut = document.getElementById("e-out");
+  const mOut = document.getElementById("m-out");
+  const cOut = document.getElementById("c-out");
+  function recalc() {
+    show(eOut, () => breakEvenTruth(num("e-pass"), num("e-ride")));
+    show(mOut, () => monthTruth(num("m-pass"), num("m-ride"), num("m-rides")));
+    show(cOut, () => commuteTruth(num("c-rpd"), num("c-days")));
+  }
+  document.querySelectorAll("input").forEach((el) => {
+    el.addEventListener("input", recalc);
+    el.addEventListener("change", recalc);
+  });
+  recalc();
+</script>
+</body>
+</html>
